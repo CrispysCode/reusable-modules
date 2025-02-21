@@ -7,22 +7,30 @@ export class Dropdown {
     }
 
     initializeDropdown() {
-        // Optional: If you want to add manual toggle functionality
-        const dropdownButton = this.dropdownElement.querySelector('button');
-        
-        dropdownButton.addEventListener('click', () => {
-            this.toggleDropdown();
+        // Add click event to toggle dropdown
+        this.dropdownElement.addEventListener('click', (event) => {
+            // Prevent event from bubbling
+            event.stopPropagation();
+            
+            // Toggle dropdown visibility
+            if (this.dropdownContent.style.display === 'block') {
+                this.hide();
+            } else {
+                this.show();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            this.hide();
+        });
+
+        // Prevent dropdown from closing when clicking inside
+        this.dropdownContent.addEventListener('click', (event) => {
+            event.stopPropagation();
         });
     }
 
-    toggleDropdown() {
-        const isHidden = this.dropdownContent.style.display === 'none' || 
-                         this.dropdownContent.style.display === '';
-        
-        this.dropdownContent.style.display = isHidden ? 'block' : 'none';
-    }
-
-    // Optional method to manually show/hide dropdown
     show() {
         this.dropdownContent.style.display = 'block';
     }
